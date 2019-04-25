@@ -1,53 +1,10 @@
-version: "3"
+docker-compose -f ten_file_yml up -d
 
-services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+check / start: 
+docker run --rm -h myapp.mydomain.com php:7.0-apache
 
-  mariadb:
-    image: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1q2w3e4r
-    ports:
-      - 13306:3306
-    volumes:
-      - D:/Docker/mariadb/:/var/lib/mysql
-  
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: root
-      PMA_PASSWORD: 1q2w3e4r
-    ports:
-      - 10080:80
-  
-  thietbidien:
-    image: php:5.6-apache
-    restart: always
-    environment:
-      VIRTUAL_HOST: thietbidien.test
-      VIRTUAL_PORT: 80
-      MYSQL_HOST: mariadb
-      MYSQL_USER: root
-      MYSQL_PASS: 1q2w3e4r
-    volumes:
-      - D:/Docker/thietbidien:/var/www/html
-  
-  localhost:
-    image: php:7.2-apache
-    restart: always
-    environment:
-      VIRTUAL_HOST: localhost.test
-      VIRTUAL_PORT: 80
-      MYSQL_HOST: mariadb
-      MYSQL_USER: root
-      MYSQL_PASS: 1q2w3e4r
-    volumes:
-      - D:/Docker/localhost:/var/www/html
+Truy cập một Container đang chạy trong Docker
+1- lấy ID của container : docker ps -a
+2-truy cập Container:  docker exec -it <container_id> /bin/bash
 
-# them 127.0.0.1 thietbidien.test vao file hosts
+check log cuar container: docker logs --details < container id>
